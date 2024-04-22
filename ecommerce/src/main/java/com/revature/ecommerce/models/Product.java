@@ -10,7 +10,7 @@ public class Product {
  private int quantity;
  private String category;
  
-public Product() {}
+public Product() {this.id = UUID.randomUUID().toString();}
 public Product( String name, String description, double price, int quantity, String category) {
 	
 	this.id = UUID.randomUUID().toString();

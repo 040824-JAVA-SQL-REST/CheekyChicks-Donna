@@ -26,6 +26,11 @@ public class ProductService {
 		
 	}
 
+	public void saveProduct(Product prod) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	}
 

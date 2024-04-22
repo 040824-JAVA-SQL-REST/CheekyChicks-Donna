@@ -2,6 +2,7 @@ package com.revature.ecommerce.screens;
 
 import java.util.Scanner;
 
+import com.revature.ecommerce.models.Product;
 import com.revature.ecommerce.models.User;
 import com.revature.ecommerce.service.ProductService;
 import com.revature.ecommerce.service.UserService;
@@ -95,6 +96,8 @@ private final Routes router;
 		 switch(userInput) {
 			 case "1":
 				  clearconsole();
+				  Product prod= newProduct();
+				  productSrv.saveProduct(prod);
 				 break;
 			 case "2":
 				 clearconsole();
@@ -115,4 +118,24 @@ private final Routes router;
 	
 
 }
+
+
+
+
+	private Product newProduct() {
+		Product prod = new Product();
+		System.out.println("Please enter product name: ");
+		prod.setName(scan.nextLine());
+		System.out.println("Please enter product price: ");
+		prod.setPrice(scan.nextDouble());
+		System.out.println("Please enter the product quantity: ");
+		prod.setQuantity(scan.nextInt());
+		System.out.println("Please enter the product description: ");
+		prod.setDescription(scan.nextLine());
+		System.out.println("Pleas enter the product category: ");
+		prod.setCategory(scan.nextLine());
+		System.out.println(prod);
+		return prod;
+		
+	}
 }

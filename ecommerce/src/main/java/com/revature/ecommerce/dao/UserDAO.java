@@ -72,8 +72,10 @@ public class UserDAO implements CrudDAO<User> {
 	public User findByID(String id) {
 		User user = new User();
 		try(Connection conn = ConnectionFactory.getInstance().getConnection();
-				PreparedStatement ps = conn.prepareStatement("Select * FROM users WHERE id ='" + id + "';");
+				PreparedStatement ps = conn.prepareStatement("Select * FROM users WHERE id =? ;");
 				ResultSet rs = ps.executeQuery()){
+				ps.setString(1, id);
+			 	
 				while(rs.next()) {
 					
 					user.setId(rs.getString("id"));
@@ -100,16 +102,50 @@ public class UserDAO implements CrudDAO<User> {
 
 	@Override
 	public User update(User obj) {
-		// TODO Auto-generated method stub
-		return null;
+		try(Connection conn = ConnectionFactory.getInstance().getConnection();
+				PreparedStatement ps = conn.prepareStatement("UPDATE users SET uname=?, email =?, password=?, role=?  WHERE id =?;");
+				){
+			
+				ps.setString(1,obj.getUname());
+				ps.setString(2, obj.getEmail());
+				ps.setString(3, obj.getPassword());
+				ps.setString(4, obj.getRole());
+				ps.setString(5,obj.getId());
+				
+				 ps.executeUpdate();
+			}catch (SQLException e) {
+				e.printStackTrace();
+				throw new RuntimeException("Cannot connect to database");
+				
+				
+			} catch (IOException e) {
+				throw new RuntimeException("Cannot find application.properties file");
+			}
+		return obj;
+			
 	}
+	
 
 
 
 
 	@Override
 	public boolean delete(String id) {
-		// TODO Auto-generated method stub
+		try(Connection conn = ConnectionFactory.getInstance().getConnection();
+				PreparedStatement ps = conn.prepareStatement("Delete From users WHERE id =?;");
+				){
+				ps.setString(1,id);
+				int rs = ps.executeUpdate();
+				if(rs>0) {return true;}
+				
+			}catch (SQLException e) {
+				e.printStackTrace();
+				throw new RuntimeException("Cannot connect to database");
+				
+				
+			} catch (IOException e) {
+				throw new RuntimeException("Cannot find application.properties file");
+			}
 		return false;
 	}
 
