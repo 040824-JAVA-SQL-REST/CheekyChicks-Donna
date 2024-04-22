@@ -7,19 +7,8 @@ import com.revature.ecommerce.models.Order;
 public class OrderDAO implements CrudDAO<Order> {
 
 	@Override
-	public void save(Order obj) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update(Order obj) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void delte(String id) {
+	public Order save(Order obj) {
+		return obj;
 		// TODO Auto-generated method stub
 		
 	}
@@ -35,6 +24,18 @@ public class OrderDAO implements CrudDAO<Order> {
 		return null;
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean delete(String id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Order update(Order obj) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

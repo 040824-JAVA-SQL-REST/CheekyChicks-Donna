@@ -2,6 +2,8 @@ package com.revature.ecommerce.screens;
 
 import java.util.Scanner;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.revature.ecommerce.models.User;
 import com.revature.ecommerce.service.UserService;
 import com.revature.ecommerce.utilities.Routes;
@@ -26,6 +28,7 @@ public class RegisterScreen extends BaseScreen {
 
 	@Override
 	public void start() {
+		printScreenHeader("Register Screen");
 		//loop until the whole process is correct
 		while (true) {
 			clearconsole();
@@ -87,11 +90,14 @@ public class RegisterScreen extends BaseScreen {
 				System.out.println("please try again.");
 				pause(scan);
 				continue;
+				
 			}
+			String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
+			password = hashedPassword;
 			break;
 		 }
 		 //save logic
-		 User newUser= new User(userName, password, email);
+		 User newUser= new User(userName, email, password);
 		 userSvc.saveUser(newUser);
 		 clearconsole();
 		 System.out.println("Account Successfully Created!");

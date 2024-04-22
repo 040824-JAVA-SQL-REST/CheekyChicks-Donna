@@ -16,8 +16,10 @@ public class StartScreen extends BaseScreen{
 	
 	
 	public void start() {
-		while(true) {
 		clearconsole();
+		printScreenHeader("Welcome Screen");
+		while(true) {
+		
 		System.out.println("What would you like to do?");
 		System.out.println("[1] Login: ");
 		System.out.println("[2]Register new user:");

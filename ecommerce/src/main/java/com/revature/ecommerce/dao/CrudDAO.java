@@ -3,9 +3,9 @@ package com.revature.ecommerce.dao;
 import java.util.List;
 
 public interface CrudDAO<T> {
-void save(T obj);
-void update(T obj);
-void delte(String id);
+T save(T obj);
+T update(T obj);
+boolean delete(String id);
 List<T>findall();
 T findByID(String id);
 }

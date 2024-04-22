@@ -1,69 +1,116 @@
 package com.revature.ecommerce.dao;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.ecommerce.models.User;
+import com.revature.ecommerce.utilities.ConnectionFactory;
 
 public class UserDAO implements CrudDAO<User> {
 //CRUD operations Create Read Update Delete
 	
-	//for janky database
-	private final String path= "src/main/resources/db/user.txt";
 	
 	
 	@Override
-	public void save(User obj) {
-		try(BufferedWriter bw = new BufferedWriter(new FileWriter(path, true))){
-			bw.write(obj.convertToData());
-			bw.newLine();
-		}catch (IOException e) {
-			e.printStackTrace();
-		}
-
+	public User save(User obj) {
+		try(Connection conn = ConnectionFactory.getInstance().getConnection();
+				PreparedStatement ps = conn.prepareStatement("INSERT INTO users (id,uname,email, password, role) VALUES(?,?,?,?,?)")
+				;){
+				ps.setString(1, obj.getId());
+				ps.setString(2, obj.getUname());
+				ps.setString(3, obj.getEmail());
+				ps.setString(4, obj.getPassword());
+				ps.setString(5, obj.getRole());
+				
+				ps.executeUpdate();
+			}catch (SQLException e) {
+				e.printStackTrace();
+				throw new RuntimeException("Cannot connect to database");
+				
+			} catch (IOException e) {
+				throw new RuntimeException("Cannot find application.properties file");
+			}
+		return obj;
 	}
 
-	@Override
-	public void update(User obj) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void delte(String id) {
-		// TODO Auto-generated method stub
-
-	}
+	
+	
 
 	@Override
 	public List<User> findall() {
 		List<User> users = new ArrayList<>();
-		try (InputStream is = getClass().getClassLoader().getResourceAsStream("db/user.txt");
-				InputStreamReader isr = new InputStreamReader(is);
-				BufferedReader reader = new BufferedReader(isr)){
-			
 
-			String line;
-			while ((line = reader.readLine()) != null) {
-				String[] data = line.split("/");
-				users.add(new User(data));
+		try(Connection conn = ConnectionFactory.getInstance().getConnection();
+			PreparedStatement ps = conn.prepareStatement("Select * FROM users");
+			ResultSet rs = ps.executeQuery()){
+			while(rs.next()) {
+				User user = new User();
+				user.setId(rs.getString("id"));
+				user.setUname(rs.getString("uname"));
+				user.setEmail(rs.getString("email"));
+				user.setPassword(rs.getString("password"));
+				user.setRole(rs.getString("role"));
+				users.add(user);
 			}
-		} catch (IOException e) {
+		}catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException("Cannot connect to database");
+			
+			
+		} catch (IOException e) {
+			throw new RuntimeException("Cannot find application.properties file");
 		}
 		return users;
 	}
 
 	@Override
 	public User findByID(String id) {
+		User user = new User();
+		try(Connection conn = ConnectionFactory.getInstance().getConnection();
+				PreparedStatement ps = conn.prepareStatement("Select * FROM users WHERE id ='" + id + "';");
+				ResultSet rs = ps.executeQuery()){
+				while(rs.next()) {
+					
+					user.setId(rs.getString("id"));
+					user.setUname(rs.getString("uname"));
+					user.setEmail(rs.getString("email"));
+					user.setPassword(rs.getString("password"));
+					user.setRole(rs.getString("role"));
+					
+				}
+			}catch (SQLException e) {
+				e.printStackTrace();
+				throw new RuntimeException("Cannot connect to database");
+				
+				
+			} catch (IOException e) {
+				throw new RuntimeException("Cannot find application.properties file");
+			}
+		return user;
+			
+	}
+
+
+
+
+	@Override
+	public User update(User obj) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+
+
+	@Override
+	public boolean delete(String id) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

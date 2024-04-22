@@ -8,7 +8,6 @@ private String id;
 private String uname;
 private String email;
 private String password;
-//private Address address;
 private String role;
 private List<Order> orders;
 
@@ -21,7 +20,7 @@ public User(String uname, String email, String password) {
 	this.uname = uname;
 	this.email = email;
 	this.password = password;
-	this.role = "default";
+	this.role = "DEFAULT";
 }
 //overloaded constructor 
 public User(String[] data) {
@@ -29,7 +28,6 @@ public User(String[] data) {
 	this.uname = data[1];
 	this.email = data[2];
 	this.password = data[3];
-	//this.address.setId(data[4]);
 	this.role = data[4];
 					 
 }
@@ -38,42 +36,55 @@ public User(String[] data) {
 public String getUname() {
 	return uname;
 }
-public void setUname(String uname) {
+public User setUname(String uname) {
 	this.uname = uname;
+	return this;
 }
 public String getEmail() {
 	return email;
 }
-public void setEmail(String email) {
+public User setEmail(String email) {
 	this.email = email;
+	return this;
 }
 public String getPassword() {
 	return password;
 }
-public void setPassword(String password) {
+public User setPassword(String password) {
 	this.password = password;
+	return this;
 }
-//public Address getAddress() {
-//	return address;
-//}
-//public void setAddress(Address address) {
-//	this.address = address;
-//}
+
 public String getId() {
 	return id;
 }
-public void setId(String id) {
+public User setId(String id) {
 	this.id = id;
+	return this;
 }
 public String getRole() {
 	return role;
 }
-public void setRole(String role) {
+public User setRole(String role) {
 	this.role = role;
+	return this;
 }
 
+public List<Order> getOrders() {
+	return orders;
+}
+public User setOrders(List<Order> orders) {
+	this.orders = orders;
+	return this;
+}
+// for Jenky DB
 public String convertToData() {
 	return this.id + "/" + this.uname + "/" + this.email + "/" + this.password  + "/" + this.role;
+}
+@Override
+public String toString() {
+	return "User [id=" + id + ", uname=" + uname + ", email=" + email + ", password=" + password + ", role=" + role
+			+ ", orders=" + orders + "]";
 }
 
 

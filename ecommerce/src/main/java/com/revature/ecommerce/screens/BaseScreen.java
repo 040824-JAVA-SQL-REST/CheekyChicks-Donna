@@ -15,4 +15,23 @@ public abstract class BaseScreen {
 		System.out.println("Press enter to continue..");
 		scan.nextLine();
 	}
+	
+	protected void printScreenHeader(String header) {
+		System.out.println("************************************************");
+		System.out.println("************************************************");
+		System.out.println("**                                            **");
+		System.out.println("  		    " + header +"                   ");
+		System.out.println("**                                            **");
+		System.out.println("************************************************");
+		System.out.println("************************************************");
+	}
+	
+	protected void printSpacer() {
+		System.out.println();
+		System.out.println();
+		
+	}
+	protected void printFormatter() {
+		System.out.print("                        ");
+		}
 }

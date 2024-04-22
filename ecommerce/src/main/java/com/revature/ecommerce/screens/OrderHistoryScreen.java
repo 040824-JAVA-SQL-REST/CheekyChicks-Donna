@@ -12,6 +12,8 @@ public class OrderHistoryScreen extends BaseScreen{
 
 	@Override
 	public void start() {
+		clearconsole();
+		printScreenHeader("Order History");
 		// TODO Auto-generated method stub
 		
 	}

@@ -12,6 +12,8 @@ public class OrderScreen extends BaseScreen{
 
 	@Override
 	public void start() {
+		clearconsole();
+		printScreenHeader("Order Screen");
 		// TODO Auto-generated method stub
 		
 	}
