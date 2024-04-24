@@ -3,6 +3,8 @@ package com.revature.ecommerce.models;
 import java.util.List;
 import java.util.UUID;
 
+import com.revature.ecommerce.dto.requests.RegisterRequest;
+
 public class User {
 private String id;
 private String uname;
@@ -31,7 +33,14 @@ public User(String[] data) {
 	this.role = data[4];
 					 
 }
-
+//constructor for DTO
+public User(RegisterRequest request) {
+	this.id = UUID.randomUUID().toString();
+	this.uname = request.getUname();
+	this.email = request.getEmail();
+	this.password = request.getPassword();
+	this.role = "DEFAULT";
+}
 //accessors and mutators (getters and setters)
 public String getUname() {
 	return uname;

@@ -15,30 +15,39 @@ public class UserService {
 	public UserService(UserDAO userDao) {
 		this.userDao = userDao;
 	}
-
+// ##############    Validation    ################# 
 	public boolean validateUsername(String uname) {
-	 return uname.matches("[A-Za-z0-9]+");
-		
+	 return uname.matches("[A-Za-z0-9]+");	
 	}
 
-	public boolean ValidatePassword(String pw, String cpw) {
-
+	public boolean ValidatePassword(String pw) {
 		return pw.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^*?&])[A-Za-z\\d@$!%^*?#&]{8,}$");
 	}
 
 	public boolean validateEmail(String email) {
-		return email.matches(
-				"^(?=.{1,64}@)[A-Za-z0-9_-]+(\\\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\\\.[A-Za-z0-9-]+)*(\\\\.[A-Za-z]{2,})$");
+		//RFC5322 Regex to validate email
+		return email.matches("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
 	}
 	
 
 	public boolean userNameExists(String uname) {
 		List<User> userList = userDao.findall();
-
 		return userList.stream().anyMatch(u -> u.getUname().equals(uname));
 	}
-	public void saveUser(User user) {
-		userDao.save(user);
+	
+	public boolean emailExists(String email) {
+		List<User> userList = userDao.findall();
+		return userList.stream().anyMatch(u -> u.getEmail().equals(email));
+	}
+	
+	
+	
+	public User saveUser(User user) {
+	
+		String hashedPw = BCrypt.hashpw(user.getPassword(),BCrypt.gensalt(12));
+		
+		user.setPassword(hashedPw);
+		return userDao.save(user);
 	}
 	
 	public Optional<User> login(String userName, String password) {

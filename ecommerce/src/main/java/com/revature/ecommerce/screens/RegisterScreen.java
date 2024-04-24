@@ -82,7 +82,7 @@ public class RegisterScreen extends BaseScreen {
 				pause(scan);
 				continue;
 			}
-			if (!userSvc.ValidatePassword(password, confirmation)) {
+			if (!userSvc.ValidatePassword(password)) {
 				clearconsole();
 				System.out.println("Password must be at least 8 characters...");
 				System.out.println("Contain at least one uppercase and lowercase letter..");
