@@ -33,12 +33,12 @@ private List<Product> cartList = new ArrayList<>();
 		System.out.println("Please choose a product to add to your cart... ");
 		pause(scan);
 		while (true) {
-		List<Product> prodList =productSrv.printProducts();
+	//	List<Product> prodList =productSrv.printProducts();
 		
 		int userInput = scan.nextInt();
 		 
 		 
-		 cartList.add(prodList.get(userInput - 1));
+		// cartList.add(prodList.get(userInput - 1));
 		System.out.println(cartList);
 		
 	

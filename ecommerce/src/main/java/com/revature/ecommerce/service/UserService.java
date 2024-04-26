@@ -40,7 +40,7 @@ public class UserService {
 		return userList.stream().anyMatch(u -> u.getEmail().equals(email));
 	}
 	
-	
+	///////////////////////////////////////////////////////////////////////////////
 	
 	public User saveUser(User user) {
 	
@@ -56,5 +56,16 @@ public class UserService {
 				.findFirst();
 	}
 	
-	// ###########Private Helper Methods ####################
+	public User findUserById(String id) {
+		return userDao.findByID(id);
+	}
+	
+	public void updateUser(User user) {
+		user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
+		userDao.update(user);		
+	}
+	
+	public List<User> getAllUsers(){
+		return userDao.findall();
+	}
 }

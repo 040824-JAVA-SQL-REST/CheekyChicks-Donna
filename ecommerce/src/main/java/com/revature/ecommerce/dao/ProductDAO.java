@@ -45,8 +45,59 @@ public class ProductDAO implements CrudDAO<Product> {
 
 	@Override
 	public Product findByID(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		Product prod = new Product();
+		try(Connection conn = ConnectionFactory.getInstance().getConnection();
+				PreparedStatement ps = conn.prepareStatement("Select * FROM products WHERE id =? ;");
+				){
+				ps.setString(1, id);
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()) {
+					
+					prod.setId(rs.getString("id"));
+					prod.setName(rs.getString("name"));
+					prod.setDescription(rs.getString("description"));
+					prod.setPrice(rs.getDouble("price"));
+					prod.setQuantity(rs.getInt("quantity"));
+					prod.setCategory(rs.getString("category"));
+					
+				}
+			}catch (SQLException e) {
+				e.printStackTrace();
+				throw new RuntimeException("Cannot connect to database");
+				
+				
+			} catch (IOException e) {
+				throw new RuntimeException("Cannot find application.properties file");
+			}
+		return prod;
+	}
+	public Product findbyProductName(String name) {
+		Product prod = new Product();
+		//System.out.println("Name: " + name);
+		try(Connection conn = ConnectionFactory.getInstance().getConnection();
+				PreparedStatement ps = conn.prepareStatement("Select * FROM products WHERE name = ?");
+				){
+				ps.setString(1, name);
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()) {
+					
+					prod.setId(rs.getString("id"));
+					prod.setName(rs.getString("name"));
+					prod.setDescription(rs.getString("description"));
+					prod.setPrice(rs.getDouble("price"));
+					prod.setQuantity(rs.getInt("quantity"));
+					prod.setCategory(rs.getString("category"));
+					
+				}
+			}catch (SQLException e) {
+				e.printStackTrace();
+				throw new RuntimeException("Cannot connect to database");
+				
+				
+			} catch (IOException e) {
+				throw new RuntimeException("Cannot find application.properties file");
+			}
+		return prod;
 	}
 
 	@Override
@@ -74,8 +125,25 @@ public class ProductDAO implements CrudDAO<Product> {
 
 	@Override
 	public Product update(Product obj) {
-		// TODO Auto-generated method stub
-		return null;
+		try(Connection conn = ConnectionFactory.getInstance().getConnection();
+				PreparedStatement ps = conn.prepareStatement("UPDATE products SET name = ?, description = ?, price = ?, quantity = ?, category = ?  WHERE id =?;");
+				){
+				//System.out.println( "DAO" + obj.toString());
+				ps.setString(1,obj.getName());
+				ps.setString(2, obj.getDescription());
+				ps.setDouble(3, obj.getPrice());
+				ps.setInt(4, obj.getQuantity());
+				ps.setString(5,obj.getCategory());
+				ps.setString(6,obj.getId());
+				
+				 ps.executeUpdate();
+			}catch (SQLException e) {
+				e.printStackTrace();
+				throw new RuntimeException("Cannot connect to database");	
+			} catch (IOException e) {
+				throw new RuntimeException("Cannot find application.properties file");
+			}
+		return obj;
 	}
 
 	@Override

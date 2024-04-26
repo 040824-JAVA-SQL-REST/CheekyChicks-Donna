@@ -2,6 +2,8 @@ package com.revature.ecommerce.models;
 
 import java.util.UUID;
 
+import com.revature.ecommerce.dto.requests.ProductRequest;
+
 public class Product {
  private String id;
  private String name;
@@ -22,7 +24,16 @@ public Product( String name, String description, double price, int quantity, Str
 }
 
 
-
+//constructor to convert ProductRequest to Product
+public Product(ProductRequest request) {
+	
+	this.name = request.getName();
+	this.description = request.getDescription();
+	this.price = request.getPrice();
+	this.quantity = request.getQuantity();
+	this.category = request.getCategory();
+	
+}
 public String getCategory() {
 	return category;
 }
@@ -61,13 +72,13 @@ public void setQuantity(int quantity) {
 }
 
 
-public String printProduct() {
-	return "| Product Name: " + name  + "  |  Price: " + price + "  |  Quantity: "
-			+ quantity + "  |   Description:  " + description + " |";
-}
+//public String printProduct() {
+//	return "| Product Name: " + name  + "  |  Price: " + price + "  |  Quantity: "
+//			+ quantity + "  |   Description:  " + description + " |";
+//}
 @Override
 public String toString() {
-	return "Product [id=" + id + ", name=" + name + ", price=" + price + ", quantity=" + quantity + "]";
+	return "Product [id=" + id + ", name=" + name + ", price=" + price + ", quantity=" + quantity + ", Description:  " + description + "]";
 }
 
 

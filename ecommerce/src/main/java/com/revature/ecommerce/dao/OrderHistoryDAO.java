@@ -1,39 +1,42 @@
 package com.revature.ecommerce.dao;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.revature.ecommerce.models.Order;
 import com.revature.ecommerce.models.OrderHistory;
+import com.revature.ecommerce.models.User;
+import com.revature.ecommerce.utilities.ConnectionFactory;
 
-public class OrderHistoryDAO implements CrudDAO<OrderHistory> {
+public class OrderHistoryDAO {
 
-	@Override
-	public OrderHistory save(OrderHistory obj) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public OrderHistory update(OrderHistory obj) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public List<Order> findOrderByUserID(String id) {
+		List<Order> orders = new ArrayList<>();
 
-	@Override
-	public boolean delete(String id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public List<OrderHistory> findall() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public OrderHistory findByID(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		try(Connection conn = ConnectionFactory.getInstance().getConnection();
+			PreparedStatement ps = conn.prepareStatement("Select * FROM orders where user_id = ?;");
+				ResultSet rs = ps.executeQuery()){
+			ps.setString(1, id);
+			while(rs.next()) {
+				Order order = new Order();
+				order.setCustomerId(id);
+				order.setId(rs.getString(id));
+				
+				orders.add(order);
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Cannot connect to database");	
+		} catch (IOException e) {
+			throw new RuntimeException("Cannot find application.properties file");
+		}
+		return orders;
 	}
 
 }

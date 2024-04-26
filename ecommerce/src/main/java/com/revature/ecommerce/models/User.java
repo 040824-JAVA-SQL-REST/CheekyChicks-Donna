@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.revature.ecommerce.dto.requests.RegisterRequest;
+import com.revature.ecommerce.dto.requests.UserRequest;
 
 public class User {
 private String id;
@@ -40,6 +41,13 @@ public User(RegisterRequest request) {
 	this.email = request.getEmail();
 	this.password = request.getPassword();
 	this.role = "DEFAULT";
+}
+public User(UserRequest request) {
+	this.id = request.getId();
+	this.uname = request.getUname();
+	this.email = request.getEmail();
+	this.password = request.getPassword();
+	this.role = request.getRole();
 }
 //accessors and mutators (getters and setters)
 public String getUname() {

@@ -13,23 +13,47 @@ public class ProductService {
 		super();
 		this.productDao = productDao;
 	}
+// product screen logic
+//	public List<Product> printProducts() {
+//	List<Product> allProducts =	productDao.findall();
+//	int prodNum = 1;
+//		for(Product p : allProducts) {
+//			System.out.print("[" + prodNum + "] ");
+//			System.out.println( p.printProduct());
+//			prodNum++;
+//		}
+//		return allProducts;
+//		
+//	}
 
-	public List<Product> printProducts() {
-	List<Product> allProducts =	productDao.findall();
-	int prodNum = 1;
-		for(Product p : allProducts) {
-			System.out.print("[" + prodNum + "] ");
-			System.out.println( p.printProduct());
-			prodNum++;
+	public List<Product> getAllProducts(){
+		return productDao.findall();
+	}
+	
+	public Product saveProduct(Product prod) {
+		return productDao.save(prod);		
+	}
+	
+	public boolean updateProduct(Product prod) {
+		
+		Product foundProd =productDao.findbyProductName(prod.getName());
+		if(foundProd.equals(null)) {
+		return false;
 		}
-		return allProducts;
+		prod.setId(foundProd.getId());
+		productDao.update(prod);
+		return true;
+	}
+	public boolean isUniqueProductName(String name) {
+		return productDao.findall().stream().noneMatch(prod -> prod.getName().equalsIgnoreCase(name));
+		
+	}
+	
+	public Product getProductById(String id) {
+		return productDao.findByID(id);
 		
 	}
 
-	public void saveProduct(Product prod) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	
 	}

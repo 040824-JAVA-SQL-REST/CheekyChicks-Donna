@@ -9,15 +9,24 @@ private String userId;
 private List<Product> items;
 private double total;
 private int quantity;
+private String status;
 
 public Cart () {}
-public Cart( String userId, List<Product> items, double total, int quantity) {
+public Cart( String userId, List<Product> items, double total, int quantity, String status) {
 	
 	this.id = UUID.randomUUID().toString();
 	this.userId = userId;
 	this.items = items;
 	this.total = total;
 	this.quantity = quantity;
+	this.status = status;
+}
+
+public String getStatus() {
+	return status;
+}
+public void setStatus(String status) {
+	this.status = status;
 }
 public String getId() {
 	return id;

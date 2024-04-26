@@ -73,9 +73,9 @@ public class UserDAO implements CrudDAO<User> {
 		User user = new User();
 		try(Connection conn = ConnectionFactory.getInstance().getConnection();
 				PreparedStatement ps = conn.prepareStatement("Select * FROM users WHERE id =? ;");
-				ResultSet rs = ps.executeQuery()){
-				ps.setString(1, id);
-			 	
+				){
+			ps.setString(1, id);
+			ResultSet rs = ps.executeQuery();
 				while(rs.next()) {
 					
 					user.setId(rs.getString("id"));
@@ -115,9 +115,7 @@ public class UserDAO implements CrudDAO<User> {
 				 ps.executeUpdate();
 			}catch (SQLException e) {
 				e.printStackTrace();
-				throw new RuntimeException("Cannot connect to database");
-				
-				
+				throw new RuntimeException("Cannot connect to database");	
 			} catch (IOException e) {
 				throw new RuntimeException("Cannot find application.properties file");
 			}

@@ -1,5 +1,12 @@
 package com.revature.ecommerce.service;
 
-public class OrderService {
+import com.revature.ecommerce.dao.OrderDAO;
 
+public class OrderService {
+	private final OrderDAO orderDao;
+
+	public OrderService(OrderDAO orderDAO) {
+		this.orderDao = orderDAO;
+
+	}
 }
