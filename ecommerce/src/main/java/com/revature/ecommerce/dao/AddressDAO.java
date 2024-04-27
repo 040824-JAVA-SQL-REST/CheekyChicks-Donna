@@ -42,7 +42,7 @@ public class AddressDAO implements CrudDAO<Address> {
 				ps.setString(4, obj.getCity());
 				ps.setString(5, obj.getState());
 				ps.setString(6, obj.getCountry());
-				ps.setString(7, obj.getPostalCode());
+				ps.setString(7, obj.getPostalcode());
 				
 				ps.executeUpdate();
 			}catch (SQLException e) {

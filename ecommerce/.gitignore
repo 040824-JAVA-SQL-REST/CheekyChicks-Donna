@@ -29,3 +29,5 @@ target/
 properties*
 resources/
 SQL*
+.classpath*
+.project*
