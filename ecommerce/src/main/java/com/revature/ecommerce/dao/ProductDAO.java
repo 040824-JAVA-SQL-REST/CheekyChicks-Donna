@@ -148,10 +148,23 @@ public class ProductDAO implements CrudDAO<Product> {
 
 	@Override
 	public boolean delete(String id) {
-		// TODO Auto-generated method stub
+		try(Connection conn = ConnectionFactory.getInstance().getConnection();
+				PreparedStatement ps = conn.prepareStatement("Delete From products WHERE id =?;");
+				){
+				ps.setString(1,id);
+				int rs = ps.executeUpdate();
+				if(rs>0) {return true;}
+				
+			}catch (SQLException e) {
+				e.printStackTrace();
+				throw new RuntimeException("Cannot connect to database");
+				
+				
+			} catch (IOException e) {
+				throw new RuntimeException("Cannot find application.properties file");
+			}
 		return false;
 	}
 
-	
 
 }

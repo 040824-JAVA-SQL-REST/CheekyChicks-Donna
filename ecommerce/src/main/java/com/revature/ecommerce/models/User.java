@@ -11,9 +11,8 @@ private String id;
 private String uname;
 private String email;
 private String password;
+// Roles : DEFAULT = customer level, ADMIN = management/employee level
 private String role;
-private List<Order> orders;
-
 public User() {
 	
 }
@@ -87,22 +86,7 @@ public User setRole(String role) {
 	return this;
 }
 
-public List<Order> getOrders() {
-	return orders;
-}
-public User setOrders(List<Order> orders) {
-	this.orders = orders;
-	return this;
-}
-// for Jenky DB
-public String convertToData() {
-	return this.id + "/" + this.uname + "/" + this.email + "/" + this.password  + "/" + this.role;
-}
-@Override
-public String toString() {
-	return "User [id=" + id + ", uname=" + uname + ", email=" + email + ", password=" + password + ", role=" + role
-			+ ", orders=" + orders + "]";
-}
+
 
 
 }

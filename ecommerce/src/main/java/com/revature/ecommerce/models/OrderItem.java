@@ -7,16 +7,18 @@ private String id;
 private String orderId;
 private String productId;
 private int productQuantity;
-private double productTotal;
+private double price;
 public OrderItem() {
+	this.id = UUID.randomUUID().toString();
+	
 }
-public OrderItem(String orderId, String productId, int productQuantity, double productTotal) {
+public OrderItem(String orderId, String productId, int productQuantity, double price) {
 	super();
 	this.id = UUID.randomUUID().toString();
 	this.orderId = orderId;
 	this.productId = productId;
 	this.productQuantity = productQuantity;
-	this.productTotal = productTotal;
+	this.price = price;
 }
 public String getId() {
 	return id;
@@ -42,11 +44,11 @@ public int getProductQuantity() {
 public void setProductQuantity(int productQuantity) {
 	this.productQuantity = productQuantity;
 }
-public double getProductTotal() {
-	return productTotal;
+public double getPrice() {
+	return price;
 }
-public void setProductTotal(double productTotal) {
-	this.productTotal = productTotal;
+public void setPrice(double productTotal) {
+	this.price = productTotal;
 }
 
 

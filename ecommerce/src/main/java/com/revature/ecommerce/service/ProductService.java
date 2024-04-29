@@ -13,18 +13,7 @@ public class ProductService {
 		super();
 		this.productDao = productDao;
 	}
-// product screen logic
-//	public List<Product> printProducts() {
-//	List<Product> allProducts =	productDao.findall();
-//	int prodNum = 1;
-//		for(Product p : allProducts) {
-//			System.out.print("[" + prodNum + "] ");
-//			System.out.println( p.printProduct());
-//			prodNum++;
-//		}
-//		return allProducts;
-//		
-//	}
+
 
 	public List<Product> getAllProducts(){
 		return productDao.findall();
@@ -51,6 +40,14 @@ public class ProductService {
 	
 	public Product getProductById(String id) {
 		return productDao.findByID(id);
+		
+	}
+
+	public void deletePoduct(String productId) {
+	Product prod=	productDao.findByID(productId);
+	if(prod !=null && prod.getQuantity() > 0) {
+		productDao.delete(productId);
+	}
 		
 	}
 

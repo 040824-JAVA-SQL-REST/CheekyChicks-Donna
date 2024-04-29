@@ -12,10 +12,12 @@ import com.revature.ecommerce.controllers.ProductController;
 import com.revature.ecommerce.controllers.UserController;
 import com.revature.ecommerce.dao.CartDAO;
 import com.revature.ecommerce.dao.OrderDAO;
+import com.revature.ecommerce.dao.OrderItemDAO;
 import com.revature.ecommerce.dao.ProductDAO;
 import com.revature.ecommerce.dao.UserDAO;
 import com.revature.ecommerce.service.CartService;
 import com.revature.ecommerce.service.OrderHistoryService;
+import com.revature.ecommerce.service.OrderItemService;
 import com.revature.ecommerce.service.OrderService;
 import com.revature.ecommerce.service.ProductService;
 import com.revature.ecommerce.service.TokenService;
@@ -30,7 +32,8 @@ public class JavalinUtils {
 		ProductController productController = new ProductController(new ProductService(new ProductDAO()),
 				new TokenService());
 		OrderController orderController = new OrderController(new OrderService(new OrderDAO()), new TokenService());
-		CartController cartController = new CartController(new CartService(new CartDAO()), new TokenService());
+		CartController cartController = new CartController(new CartService(new CartDAO(),
+				new OrderItemService(new OrderItemDAO())), new TokenService());
 		OrderHistoryController orderHistController = new OrderHistoryController(new OrderHistoryService(new OrderDAO()), new TokenService());
 		
 		return Javalin.create(config -> {
@@ -43,15 +46,18 @@ public class JavalinUtils {
 				});
 				path("/products", ()-> {
 					post(productController::addProduct);
+					get("/catalog", productController::getCatalog);
 					get(productController:: getAllProducts);
 				    get("{id}", productController::getProduct);
     				put(productController::updateProduct);
 					delete(productController::removeProduct);
+					delete("{id}", productController::deleteProduct);
 				});
 				path("/carts", ()-> {
 					post(cartController::createCart);
 					get("{id}",cartController::getCart);
-					put(cartController::updateCart);
+					put(cartController::addItemToCart);
+					delete("{id}", cartController::removeItemFromCart);
 					delete(cartController::checkout);
 				});
 				path("/orders", ()->{

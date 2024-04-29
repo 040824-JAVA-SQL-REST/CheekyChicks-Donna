@@ -3,24 +3,31 @@ package com.revature.ecommerce.models;
 import java.util.List;
 import java.util.UUID;
 
+import com.revature.ecommerce.dto.requests.CartRequest;
+
 public class Cart {
 private String id;
 private String userId;
-private List<Product> items;
+private String itemsId;
 private double total;
 private int quantity;
 private String status;
 
-public Cart () {}
-public Cart( String userId, List<Product> items, double total, int quantity, String status) {
+public Cart () {
+	this.id = UUID.randomUUID().toString();
+	this.itemsId= UUID.randomUUID().toString();
+}
+
+public Cart( String userId, String itemsId, double total, int quantity, String status) {
 	
 	this.id = UUID.randomUUID().toString();
 	this.userId = userId;
-	this.items = items;
+	this.itemsId = itemsId;
 	this.total = total;
 	this.quantity = quantity;
 	this.status = status;
 }
+
 
 public String getStatus() {
 	return status;
@@ -40,12 +47,6 @@ public String getUserId() {
 public void setUserId(String userId) {
 	this.userId = userId;
 }
-public List<Product> getItems() {
-	return items;
-}
-public void setItems(List<Product> items) {
-	this.items = items;
-}
 public double getTotal() {
 	return total;
 }
@@ -57,6 +58,18 @@ public int getQuantity() {
 }
 public void setQuantity(int quantity) {
 	this.quantity = quantity;
+}
+public String getItemsId() {
+	return itemsId;
+}
+public void setItemsId(String itemsId) {
+	this.itemsId = itemsId;
+}
+
+@Override
+public String toString() {
+	return "Cart [id=" + id + ", userId=" + userId + ", itemsId=" + itemsId + ", total=" + total + ", quantity="
+			+ quantity + ", status=" + status + "]";
 }
 
 }
