@@ -1,5 +1,7 @@
 package com.revature.ecommerce.models;
 
+import java.util.UUID;
+
 public class Address {
 private String id;
 private String street;
@@ -9,12 +11,11 @@ private String state;
 private String country;
 private String postalcode;
 public Address() {
-	super();
-	// TODO Auto-generated constructor stub
+	
 }
-public Address(String id, String street, String street2, String city, String state, String country, String postalcode) {
+public Address( String street, String street2, String city, String state, String country, String postalcode) {
 	super();
-	this.id = id;
+	this.id = UUID.randomUUID().toString();
 	this.street = street;
 	this.street2 = street2;
 	this.city = city;

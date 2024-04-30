@@ -14,7 +14,7 @@ public class OrderDAO implements CrudDAO<Order> {
 	@Override
 	public Order save(Order obj) {
 		try(Connection conn = ConnectionFactory.getInstance().getConnection();
-				PreparedStatement ps = conn.prepareStatement("INSERT INTO orders (id,user_id,shipping_address_id, total, status, estimated_delivery_date) VALUES(?,?,?,?,?,?)")
+				PreparedStatement ps = conn.prepareStatement("INSERT INTO orders (id,user_id,shipping_address_id, total, status) VALUES(?,?,?,?,?)")
 				;){
 				ps.setString(1, obj.getId());
 				ps.setString(2, obj.getCustomerId());

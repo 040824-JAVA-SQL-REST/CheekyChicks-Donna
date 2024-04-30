@@ -15,7 +15,7 @@ private String status;
 
 public Cart () {
 	this.id = UUID.randomUUID().toString();
-	this.itemsId= UUID.randomUUID().toString();
+	this.itemsId= UUID.randomUUID().toString();// will be order id
 }
 
 public Cart( String userId, String itemsId, double total, int quantity, String status) {

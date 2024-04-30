@@ -67,6 +67,7 @@ public class ProductController {
 			}
 			Product product = new Product(request);
 			productsrv.saveProduct(product);
+			ctx.json(product);
 			ctx.status(201);
 		} catch (Exception e) {
 			e.printStackTrace();

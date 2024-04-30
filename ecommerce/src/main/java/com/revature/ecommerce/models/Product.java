@@ -26,7 +26,7 @@ public Product( String name, String description, double price, int quantity, Str
 
 //constructor to convert ProductRequest to Product
 public Product(ProductRequest request) {
-	
+	this.id = UUID.randomUUID().toString();
 	this.name = request.getName();
 	this.description = request.getDescription();
 	this.price = request.getPrice();

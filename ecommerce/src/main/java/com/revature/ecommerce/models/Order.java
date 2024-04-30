@@ -1,5 +1,6 @@
 package com.revature.ecommerce.models;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,18 +11,31 @@ private String id;
  private String ShippingAddressId;
  private double total;
  private String status;
- 
+ private Date estimatedDelivery;
  
 public Order() {
 }
 
-public Order( String customerId, String shippingAddressId, double total, String status) {
 
-	this.id = UUID.randomUUID().toString();
+public Order(String id, String customerId, List<OrderItem> orderitems, String shippingAddressId, double total,
+		String status, Date estimatedDelivery) {
+	super();
+	this.id = id;
 	this.customerId = customerId;
+	this.orderitems = orderitems;
 	ShippingAddressId = shippingAddressId;
 	this.total = total;
 	this.status = status;
+	this.estimatedDelivery = estimatedDelivery;
+}
+
+
+public Order(Cart cart) {
+  this.id = cart.getItemsId();
+  this.customerId = cart.getUserId();
+  this.total = cart.getTotal();
+  this.status = "Paid";
+  
 }
 
 public String getId() {
@@ -70,6 +84,16 @@ public String getStatus() {
 
 public void setStatus(String status) {
 	this.status = status;
+}
+
+
+public Date getEstimatedDelivery() {
+	return estimatedDelivery;
+}
+
+
+public void setEstimatedDelivery(Date estimatedDelivery) {
+	this.estimatedDelivery = estimatedDelivery;
 }
  
 }

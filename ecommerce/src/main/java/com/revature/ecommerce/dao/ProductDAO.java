@@ -71,6 +71,8 @@ public class ProductDAO implements CrudDAO<Product> {
 			}
 		return prod;
 	}
+	
+
 	public Product findbyProductName(String name) {
 		Product prod = new Product();
 		//System.out.println("Name: " + name);

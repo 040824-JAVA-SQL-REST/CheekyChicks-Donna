@@ -34,7 +34,7 @@ public class AddressDAO implements CrudDAO<Address> {
 	@Override
 	public Address save(Address obj) {
 		try(Connection conn = ConnectionFactory.getInstance().getConnection();
-				PreparedStatement ps = conn.prepareStatement("INSERT INTO address (id,street,street2, city, state, country, postalcode) VALUES(?,?,?,?,?,?,?)")
+				PreparedStatement ps = conn.prepareStatement("INSERT INTO addresses (id,street,street2, city, state, country, postalcode) VALUES(?,?,?,?,?,?,?)")
 				;){
 				ps.setString(1, obj.getId());
 				ps.setString(2, obj.getStreet());

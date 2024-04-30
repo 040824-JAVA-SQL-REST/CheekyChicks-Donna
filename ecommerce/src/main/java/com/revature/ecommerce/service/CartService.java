@@ -2,9 +2,12 @@ package com.revature.ecommerce.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.revature.ecommerce.dao.CartDAO;
 import com.revature.ecommerce.dao.ProductDAO;
+import com.revature.ecommerce.dto.responses.OrderCartResponse;
+import com.revature.ecommerce.models.Address;
 import com.revature.ecommerce.models.Cart;
 import com.revature.ecommerce.models.Order;
 import com.revature.ecommerce.models.OrderItem;
@@ -13,10 +16,14 @@ import com.revature.ecommerce.models.Product;
 public class CartService {
 	private final CartDAO cartDao;
 	private final OrderItemService itemsrv;
+	private final OrderService ordersrv;
+	private final AddressService addsrv;
 
-	public CartService(CartDAO cartDAO, OrderItemService itemsrv) {
+	public CartService(CartDAO cartDAO, OrderItemService itemsrv,OrderService ordersrv, AddressService addsrv) {
 		this.cartDao = cartDAO;
 		this.itemsrv = itemsrv;
+		this.ordersrv= ordersrv;
+		this.addsrv = addsrv;
 	}
 
 	public Cart initializeCart(String uId) {
@@ -31,7 +38,7 @@ public class CartService {
 	}
 
 	public Cart addItem(String productId, String userId) {
-		
+
 		// look up cart and product
 		Product prod = new ProductDAO().findByID(productId);
 		Cart foundcart = cartDao.findByUserID(userId);
@@ -63,7 +70,7 @@ public class CartService {
 		List<OrderItem> items = itemsrv.getOrderItemsbyOrderId(cart.getItemsId());
 		for (OrderItem item : items) {
 			if (item.getProductId().equals(prodid)) {
-				
+
 				if (item.getProductQuantity() == 0) {
 					return cart;
 				}
@@ -77,9 +84,26 @@ public class CartService {
 		return cart;
 	}
 
-	public Order checkout(Cart cart, Order order) {
-		// todo
-		return null;
+	public OrderCartResponse checkout(Cart cart, Address address) {
+		//persist address in database
+		String addId = UUID.randomUUID().toString();;
+		address.setId(addId);
+		addsrv.persistAddress(address);
+		//create order using cart information 
+		Order order = new Order(cart);
+		order.setShippingAddressId(address.getId());
+		
+		List<OrderItem> items =itemsrv.getOrderItemsbyOrderId(cart.getItemsId());
+		//System.out.println(items.get(0));
+		order.setOrderitems(items);
+		
+		// persist order in DB
+		ordersrv.persistOrder(order);
+		OrderCartResponse response = new OrderCartResponse(order, address);
+		// delete cart
+		
+		//deleteCart(cart.getId());
+		return response;
 	}
 
 	public boolean ifCartIsNotUnique(String id) {
@@ -91,5 +115,14 @@ public class CartService {
 		} else {
 			return true;
 		}
+	}
+
+	public void deleteCart(String id) {
+		cartDao.delete(id);
+	}
+
+	public Cart getCartByID(String id) {
+		 return cartDao.findByID(id);
+		
 	}
 }
